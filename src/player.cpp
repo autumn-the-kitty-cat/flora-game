@@ -1,26 +1,14 @@
 #ifndef PLAYER
 #define PLAYER
 
+#include "sprite.cpp"
+#include <cmath>
 #include <raylib.h>
-#include <string>
+
+#define PLAYER_SPEED 600.0
+#define FALL_SPEED 1200.0
 
 class PlayerState { };
-
-class Sprite {
-public:
-    std::string name;
-    Texture texture;
-    Vector2 position;
-    void load(std::string imagePath)
-    {
-        name = imagePath;
-
-        texture = LoadTexture(name.c_str());
-
-        texture.height = 128;
-        texture.width = 128;
-    }
-};
 
 class Player {
 private:
@@ -31,7 +19,30 @@ public:
     Vector2 position;
     void draw()
     {
-        DrawTexture(sprite.texture, position.x, position.y, WHITE);
+        DrawTextureV(sprite.texture, position, WHITE);
+    }
+
+    void move()
+    {
+        int targetFps = GetFPS();
+
+        int movementX = 0.0;
+
+        if (IsKeyDown(KEY_D)) {
+            movementX += PLAYER_SPEED * GetFrameTime();
+        }
+
+        if (IsKeyDown(KEY_A)) {
+            movementX -= PLAYER_SPEED * GetFrameTime();
+        }
+
+        position.x += movementX;
+    }
+
+    void fall()
+    {
+        position.y += FALL_SPEED * GetFrameTime();
     }
 };
+
 #endif
