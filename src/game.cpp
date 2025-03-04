@@ -7,6 +7,8 @@
 
 #include <raylib.h>
 
+#define SKY_COLOUR BLUE
+
 class GameState {
     Level level;
 };
@@ -18,10 +20,11 @@ private:
     Terrain terrain;
     void loop()
     {
-        ClearBackground(BLACK);
+        ClearBackground(SKY_COLOUR);
         player.draw();
         player.move();
         player.fall();
+        terrain.draw();
     };
 
     void configureRaylib()
@@ -38,6 +41,7 @@ public:
         configureRaylib();
 
         player.sprite.load("resources/player.png");
+        terrain.init();
 
         while (!WindowShouldClose()) {
             BeginDrawing();
